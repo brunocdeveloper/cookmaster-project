@@ -1,4 +1,4 @@
-const { registerRecipes } = require('../models/recipesModel');
+const { registerRecipes, getAllRecipes } = require('../models/recipesModel');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -8,4 +8,9 @@ const createRecipes = async (req, res) => {
   return res.status(201).json(recipe);
 };
 
-module.exports = { createRecipes };
+const listRecipes = async (req, res) => {
+  const recipes = await getAllRecipes();
+  return res.status(200).json(recipes);
+};
+
+module.exports = { createRecipes, listRecipes };

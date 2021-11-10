@@ -14,4 +14,10 @@ const registerRecipes = async ({ name, ingredients, preparation, userId }) => {
   };
 };
 
-module.exports = { registerRecipes };
+const getAllRecipes = async () => {
+  const db = await connection();
+  const data = await db.collection('recipes').find().toArray();
+  return data;
+};
+
+module.exports = { registerRecipes, getAllRecipes };
