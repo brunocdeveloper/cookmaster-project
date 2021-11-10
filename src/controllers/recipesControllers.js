@@ -1,4 +1,8 @@
-const { registerRecipes, getAllRecipes, getRecipesById } = require('../models/recipesModel');
+const { 
+  registerRecipes,
+  getAllRecipes,
+  getRecipesById,
+  editRecipeById } = require('../models/recipesModel');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -20,4 +24,18 @@ const listRecipesById = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
-module.exports = { createRecipes, listRecipes, listRecipesById };
+const putRecipesById = async (req, res) => {
+  const token = req.headers.authorization;
+  const { body } = req;
+  const { id } = req.params;
+  const { _id } = req.user;
+  const userId = _id;
+  const editedRecipe = await editRecipeById(id, body, userId);
+
+  if (!token || token === '' || token === null) {
+    return res.status(401).json({ message: 'missing auth token' });
+  } 
+  return res.status(200).json(editedRecipe);
+};
+
+module.exports = { createRecipes, listRecipes, listRecipesById, putRecipesById };
