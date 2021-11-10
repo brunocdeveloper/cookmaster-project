@@ -11,4 +11,6 @@ Router.post('/',
 
 Router.get('/', recipesControllers.listRecipes);
 
+Router.get('/:id', recipesControllers.listRecipesById);
+
 module.exports = Router;

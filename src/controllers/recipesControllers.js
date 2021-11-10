@@ -1,4 +1,4 @@
-const { registerRecipes, getAllRecipes } = require('../models/recipesModel');
+const { registerRecipes, getAllRecipes, getRecipesById } = require('../models/recipesModel');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -13,4 +13,11 @@ const listRecipes = async (req, res) => {
   return res.status(200).json(recipes);
 };
 
-module.exports = { createRecipes, listRecipes };
+const listRecipesById = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getRecipesById(id);
+  if (!recipe) return res.status(404).json({ message: 'recipe not found' });
+  return res.status(200).json(recipe);
+};
+
+module.exports = { createRecipes, listRecipes, listRecipesById };
