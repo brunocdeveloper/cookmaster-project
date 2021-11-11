@@ -25,16 +25,11 @@ const listRecipesById = async (req, res) => {
 };
 
 const putRecipesById = async (req, res) => {
-  const token = req.headers.authorization;
   const { body } = req;
   const { id } = req.params;
   const { _id } = req.user;
   const userId = _id;
   const editedRecipe = await editRecipeById(id, body, userId);
-
-  if (!token || token === '' || token === null) {
-    return res.status(401).json({ message: 'missing auth token' });
-  } 
   return res.status(200).json(editedRecipe);
 };
 
