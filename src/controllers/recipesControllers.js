@@ -5,6 +5,7 @@ const {
   editRecipeById,
   deleteRecipeById,
 } = require('../models/recipesModel');
+const { updateImageVerify } = require('../services/recipesServices');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -41,10 +42,23 @@ const excludeRecipesById = async (req, res) => {
   return res.status(204).json(exclude);
 };
 
+const editImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user } = req;
+    const { _id } = user;
+    const updatedImage = await updateImageVerify(id, user);
+    return res.status(200).json({ ...updatedImage, userId: _id });
+  } catch (error) {
+    return res.status(400).json({ message: 'unauthorizad' });
+  }
+};
+
 module.exports = {
   createRecipes,
   listRecipes,
   listRecipesById,
   putRecipesById,
   excludeRecipesById,
+  editImage,
 };
