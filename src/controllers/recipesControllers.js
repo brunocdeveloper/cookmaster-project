@@ -2,7 +2,9 @@ const {
   registerRecipes,
   getAllRecipes,
   getRecipesById,
-  editRecipeById } = require('../models/recipesModel');
+  editRecipeById,
+  deleteRecipeById,
+} = require('../models/recipesModel');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -33,4 +35,16 @@ const putRecipesById = async (req, res) => {
   return res.status(200).json(editedRecipe);
 };
 
-module.exports = { createRecipes, listRecipes, listRecipesById, putRecipesById };
+const excludeRecipesById = async (req, res) => {
+  const { id } = req.params;
+  const exclude = await deleteRecipeById(id);
+  return res.status(204).json(exclude);
+};
+
+module.exports = {
+  createRecipes,
+  listRecipes,
+  listRecipesById,
+  putRecipesById,
+  excludeRecipesById,
+};

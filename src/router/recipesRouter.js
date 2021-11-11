@@ -15,4 +15,6 @@ Router.get('/:id', recipesControllers.listRecipesById);
 
 Router.put('/:id', validateJWT, recipesControllers.putRecipesById);
 
+Router.delete('/:id', validateJWT, recipesControllers.excludeRecipesById);
+
 module.exports = Router;
